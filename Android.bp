@@ -1,0 +1,44 @@
+cc_library {
+    name: "libpciaccess",
+    cflags : [
+        "-DPCIIDS_PATH=\"/system/usr/share/hwdata/\"",
+        "-DHAVE_ZLIB",
+        "-DHAVE_ERR_H",
+        "-DHAVE_STDINT_H",
+        "-DHAVE_STRING_H",
+        "-DHAVE_STRINGS_H",
+        "-DHAVE_INTTYPES_H",
+
+        "-Wno-unused-parameter",
+        "-Wno-unused-variable",
+        "-Wno-missing-field-initializers",
+        "-Wno-deprecated-declarations",
+    ],
+    srcs: [
+        "src/common_bridge.c",
+        "src/common_iterator.c",
+        "src/common_init.c",
+        "src/common_interface.c",
+        "src/common_io.c",
+        "src/common_capability.c",
+        "src/common_device_name.c",
+        "src/common_map.c",
+        "src/linux_sysfs.c",
+        "src/linux_devmem.c",
+        "src/common_vgaarb.c",
+    ],
+    shared_libs: [
+        "libz",
+    ],
+    export_include_dirs: ["include"],
+    local_include_dirs: ["src"],
+}
+
+cc_binary {
+    name: "scanpci",
+    srcs: ["scanpci/scanpci.c"],
+    shared_libs: [
+        "libpciaccess",
+    ],
+    local_include_dirs: ["src"],
+}
